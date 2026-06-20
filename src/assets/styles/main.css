@@ -1,0 +1,790 @@
+/* ============================================================
+   Global Design Tokens — 严格全局 CSS 变量
+   页面、组件只允许引用下列变量，禁止硬编码色值。
+   ============================================================ */
+:root {
+  /* Primary palette */
+  --primary: #52a88c;
+  --primary-light: #e6f3ee;
+
+  /* Expense */
+  --expense: #e77f67;
+  --expense-light: #fdebe7;
+
+  /* Income */
+  --income: #69bb9c;
+  --income-light: #e6f7f0;
+
+  /* Text */
+  --text-h1: #1a1a1a;
+  --text-h2: #333333;
+  --text-body: #595959;
+  --text-weak: #949494;
+
+  /* Surfaces */
+  --page-bg: #f7f9f8;
+  --card-bg: #ffffff;
+  --divider: #e9eceb;
+
+  /* Radii */
+  --radius-xl: 18px;
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+
+  /* Shadow */
+  --shadow-soft: 0 2px 6px rgba(0,0,0,0.05);
+  --shadow-hover: 0 8px 20px rgba(82,168,140,0.25);
+
+  /* Typography scale (font-size + font-weight pairs) */
+  --font-h1: 600 22px / 1.3;
+  --font-h2: 500 17px / 1.4;
+  --font-body: 400 14px / 1.5;
+  --font-caption: 400 12px / 1.4;
+
+  /* ---- Derived tokens（从上方派生，不新增色值） ---- */
+  --primary-dark: #3D8068;
+  --expense-dark: #C9664F;
+  --income-dark: #4F9C7C;
+
+  /* ---- VIP 保留少量功能色，少量页面使用 */
+  --vip-gold: #cfa967;
+  --vip-light: #f9f2e4;
+
+  /* ---- 少量别名 - 不允许新增色值 ---- */
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
+  --color-expense: var(--expense);
+  --color-expense-light: var(--expense-light);
+  --color-income: var(--income);
+  --color-income-light: var(--income-light);
+  --color-bg: var(--page-bg);
+  --color-card: var(--card-bg);
+  --color-text: var(--text-h1);
+  --color-text-secondary: var(--text-body);
+  --color-text-light: var(--text-weak);
+  --color-divider: var(--divider);
+  --shadow-card: var(--shadow-soft);
+
+  /* ---- Z-index 集中管控（防止插画/文字层叠错乱） ---- */
+  --z-illustration-bg: 1;       /* 背景大插画（最底） */
+  --z-illustration-corner: 2;   /* 角标贴纸 */
+  --z-card-content: 9;          /* 卡片文字/金额（永远在插画之上） */
+  --z-fab: 50;                  /* 悬浮按钮 */
+  --z-modal-mask: 90;           /* 弹窗遮罩 */
+  --z-modal-content: 95;        /* 弹窗内容 */
+  --z-nav: 100;                 /* 底部导航 */
+  --z-toast: 200;               /* Toast 提示 */
+
+  /* ---- 插画透明度规范（避免遮挡文字） ---- */
+  --illus-bg-opacity: 0.10;     /* 卡片底层大插画 */
+  --illus-corner-opacity: 0.85; /* 角标贴纸 */
+  --illus-pattern-opacity: 0.06;/* 底部暗纹 */
+}
+
+/* ============================================================
+   安卓水滴屏 / 挖孔屏安全边距
+   ============================================================ */
+html, body {
+  padding-top: env(safe-area-inset-top, 0);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  padding-left: env(safe-area-inset-left, 0);
+  padding-right: env(safe-area-inset-right, 0);
+}
+
+#app {
+  min-height: 100vh;
+  min-height: 100dvh; /* 动态视口高度，适配移动浏览器地址栏 */
+}
+
+/* ============================================================
+   三套完整独立主题包（色彩 + 装饰 绑定一体）
+   · .set-standard  标准纯净简约：薄荷绿 #52a88c，无装饰
+   · .set-onepiece   海贼王人物包：海蓝 #1E5A8A，全套海贼王角色装饰
+   · .set-family     家人温馨主题：暖米色 #F4B183，无装饰
+   ============================================================ */
+
+/* ====== 主题 1：标准纯净简约 ====== */
+.set-standard,
+.set-standard #app {
+  --primary: #52a88c;
+  --primary-light: #e6f3ee;
+  --primary-dark: #3D8068;
+  --shadow-hover: 0 8px 20px rgba(82,168,140,0.25);
+}
+
+/* 标准主题：清空 body 背景纹理（无装饰） */
+.set-standard::before {
+  content: none;
+}
+.set-standard #app::before {
+  content: none;
+}
+
+/* 隐藏所有装饰容器，回到纯净布局 */
+.set-standard .empty-state-mascot,
+.set-standard .empty-state-comic,
+.set-standard .empty-state-pet,
+.set-standard .empty-state-illust,
+.set-standard .hero-mini-decor,
+.set-standard .pet-corner,
+.set-standard .comic-corner,
+.set-standard .page-corner-decor {
+  display: none !important;
+}
+
+/* ====== 主题 3：家人温馨主题（暖米色 · 无装饰） ====== */
+.set-family,
+.set-family #app {
+  --primary: #F4B183;
+  --primary-light: #FCEAD9;
+  --primary-dark: #D8904F;
+  --shadow-hover: 0 8px 20px rgba(244, 177, 131, 0.30);
+}
+
+/* 家人主题：清空 body 背景纹理（无装饰） */
+.set-family::before {
+  content: none;
+}
+.set-family #app::before {
+  content: none;
+}
+
+/* 家人主题：隐藏装饰元素（MangaMascot 大图、SVG 装饰、角落装饰等）
+   注意：empty-state-mascot / -comic / -illust / -pet 是插画容器（内含 IllustrationImage），
+   不在此处隐藏，必须与海贼王主题一致地展示家庭照片。 */
+.set-family .hero-mini-decor,
+.set-family .pet-corner,
+.set-family .comic-corner,
+.set-family .page-corner-decor,
+.set-family .manga-mascot,
+.set-family .pet-mascot,
+.set-family .comic-mascot {
+  display: none !important;
+}
+
+/* ====== 主题 2：海贼王人物包（海洋蓝调） ====== */
+.set-onepiece,
+.set-onepiece #app {
+  --primary: #1E5A8A;
+  --primary-light: #E6F0F8;
+  --primary-dark: #0F3A66;
+  --shadow-hover: 0 8px 20px rgba(30,90,138,0.25);
+}
+
+/* 海贼王底层纹理（页面 + 弹窗） */
+.set-onepiece::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.14;
+  /* 海洋纹理：横向波纹 + 细点 */
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><g stroke='%231E5A8A' stroke-opacity='0.35' stroke-width='0.5' fill='none'><path d='M0 20 Q 40 14 80 20 T 160 20'/><path d='M0 40 Q 40 34 80 40 T 160 40'/><path d='M0 60 Q 40 54 80 60 T 160 60'/><path d='M0 80 Q 40 74 80 80 T 160 80'/><path d='M0 100 Q 40 94 80 100 T 160 100'/><path d='M0 120 Q 40 114 80 120 T 160 120'/><path d='M0 140 Q 40 134 80 140 T 160 140'/></g><g fill='%231E5A8A' fill-opacity='0.28'><circle cx='30' cy='35' r='0.4'/><circle cx='85' cy='55' r='0.5'/><circle cx='125' cy='80' r='0.4'/><circle cx='45' cy='95' r='0.5'/><circle cx='110' cy='125' r='0.4'/><circle cx='65' cy='145' r='0.5'/><circle cx='140' cy='25' r='0.4'/><circle cx='20' cy='115' r='0.4'/></g></svg>");
+  background-size: 160px 160px;
+  background-repeat: repeat;
+}
+
+.set-onepiece #app {
+  position: relative;
+  z-index: 1;
+}
+.set-onepiece #app::before { z-index: 0; }
+
+/* 海贼王装饰：仅显示 comic 装饰，隐藏 pet/mascot 装饰 */
+.set-onepiece .empty-state-mascot,
+.set-onepiece .pet-corner {
+  display: none !important;
+}
+.set-onepiece .empty-state-comic,
+.set-onepiece .empty-state-illust {
+  opacity: 1;
+}
+
+/* 手绘柔化线条感：边框颜色柔化 */
+.set-onepiece .card,
+.set-onepiece .modal-card,
+.set-onepiece .settings-field-group,
+.set-onepiece .balance-card-light,
+.set-onepiece .stat-card-big,
+.set-onepiece .stat-card-illust {
+  position: relative;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--primary-light);
+  overflow: visible;
+}
+/* 海贼王模式：使用 PaintedScene 大幅插画为主，删除 4 角小人剪影避免冲突 */
+
+
+/* 海贼王模式：所有按钮 + Tab 选中下划线手绘波浪 */
+.set-onepiece .seg-item.active::after,
+.set-onepiece .nav-tab.is-active::after {
+  border-radius: 8px 8px 2px 2px;
+}
+/* 海贼王模式：弹窗卡片手绘不规则边 */
+.set-onepiece .modal-card {
+  border-radius: 16px 18px 14px 18px;
+}
+
+/* ============================================================
+   装饰容器通用样式（空白页/角落/hero 统一动画）
+   ============================================================ */
+
+/* 装饰淡入过渡（0.2s，无延迟无空白） */
+.empty-state-mascot,
+.empty-state-comic,
+.hero-mini-decor,
+.pet-corner,
+.comic-corner {
+  opacity: 0;
+  animation: decorFadeIn 0.2s ease forwards;
+}
+
+@keyframes decorFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 萌宠尺寸规则 */
+.pet-mascot         { width: 160px; height: 170px; }
+.pet-mascot-mini    { width: 56px; height: 60px; opacity: 0.85; }
+.pet-mascot-corner  { width: 72px; height: 76px; opacity: 0.55; pointer-events: none; }
+
+/* SVG 内部颜色跟随主题（自动读取 --primary） */
+.pet-svg .pet-fill-main  { fill: var(--primary); transition: fill 0.2s ease; }
+.pet-svg .pet-fill-light { fill: var(--primary-light); transition: fill 0.2s ease; }
+.pet-svg .pet-fill-dark  { fill: var(--primary-dark); transition: fill 0.2s ease; }
+
+/* 萌宠浮动微动效（空白页大装饰） */
+.pet-mascot { animation: petFloat 2.8s ease-in-out infinite; }
+@keyframes petFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-5px); }
+}
+
+/* 角落萌宠呼吸效果 */
+.pet-mascot-corner { animation: petBreathe 3.2s ease-in-out infinite; }
+@keyframes petBreathe {
+  0%, 100% { transform: scale(1); opacity: 0.55; }
+  50%      { transform: scale(1.04); opacity: 0.7; }
+}
+
+/* 角落装饰通用位置（记账弹窗等） */
+.pet-corner,
+.comic-corner {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  width: 84px;
+  height: 88px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* hero 区迷你装饰容器 */
+.hero-mini-decor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 68px;
+  height: 68px;
+}
+
+/* hero-mini-decor 内的装饰：由 body class 控制显隐 */
+.set-standard .hero-mini-decor .empty-state-mascot,
+.set-standard .hero-mini-decor .empty-state-comic {
+  display: none !important;
+}
+.set-onepiece .hero-mini-decor .empty-state-mascot { display: none !important; }
+
+/* ============================================================
+   Reset / base
+   ============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Source Han Sans CN', 'Noto Sans CJK SC', sans-serif;
+  background: var(--page-bg);
+  color: var(--text-h1);
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+
+#app { min-height: 100vh; background: var(--page-bg); }
+
+/* ============================================================
+   Typography
+   ============================================================ */
+h1, .h1 { font: var(--font-h1); color: var(--text-h1); }
+h2, .h2 { font: var(--font-h2); color: var(--text-h2); }
+.body, p { font: var(--font-body); color: var(--text-body); }
+.caption { font: var(--font-caption); color: var(--text-weak); }
+
+.text-dark { color: var(--text-h1); }
+.text-normal { color: var(--text-body); }
+.text-light { color: var(--text-weak); }
+.text-primary { color: var(--primary); }
+.text-expense { color: var(--expense); }
+.text-income { color: var(--income); }
+.text-vip { color: var(--vip-gold); }
+
+/* ============================================================
+   Cards
+   ============================================================ */
+.card, .card-page {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+}
+.card-md, .card-row {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card-md:active, .card-row:active { transform: scale(0.99); box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
+.card-sm { background: var(--card-bg); border-radius: var(--radius-md); box-shadow: var(--shadow-soft); }
+.card-lg { background: var(--card-bg); border-radius: var(--radius-xl); box-shadow: var(--shadow-soft); }
+
+/* ============================================================
+   Buttons — 三态规范
+   ============================================================ */
+.btn-primary {
+  background: var(--primary); color: #FFFFFF; border-radius: var(--radius-md);
+  font: var(--font-body); padding: 10px 18px; border: none;
+  cursor: pointer; transition: all 0.15s ease;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  font-weight: 500;
+}
+.btn-primary:active { transform: scale(0.96); opacity: 0.92; }
+.btn-primary:disabled, .btn-primary.disabled {
+  background: var(--divider); color: var(--text-weak); cursor: not-allowed;
+  transform: none; opacity: 1;
+}
+
+.btn-secondary {
+  background: transparent; color: var(--primary); border: 1px solid var(--primary);
+  border-radius: var(--radius-md); font: var(--font-body); padding: 10px 18px;
+  cursor: pointer; transition: all 0.15s ease; font-weight: 500;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-secondary:active { transform: scale(0.96); background: var(--primary-light); }
+
+.btn-secondary-expense {
+  background: transparent; color: var(--expense); border: 1px solid var(--expense);
+  border-radius: var(--radius-md); font: var(--font-body); padding: 10px 18px;
+  cursor: pointer; transition: all 0.15s ease; font-weight: 500;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-secondary-expense:active { transform: scale(0.96); background: var(--expense-light); }
+
+.btn-expense {
+  background: var(--expense); color: #FFFFFF; border: none;
+  border-radius: var(--radius-md); font: var(--font-body); padding: 10px 18px;
+  cursor: pointer; transition: all 0.15s ease; font-weight: 500;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-expense:active { transform: scale(0.96); opacity: 0.92; }
+
+.btn-ghost {
+  background: transparent; color: var(--text-body); border: 1px solid var(--divider);
+  border-radius: var(--radius-md); font: var(--font-body); padding: 10px 18px;
+  cursor: pointer; transition: all 0.15s ease; font-weight: 500;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-ghost:active { transform: scale(0.96); background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+
+.btn-light {
+  background: var(--primary-light); color: var(--primary); border: none;
+  border-radius: var(--radius-md); font: var(--font-body); padding: 8px 14px;
+  cursor: pointer; transition: transform 0.15s ease; font-weight: 500;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-light:active { transform: scale(0.96); }
+
+.btn-fab {
+  background: var(--primary); color: #FFFFFF; border-radius: 50%;
+  width: 52px; height: 52px; display: flex; align-items: center; justify-content: center;
+  border: none; cursor: pointer; box-shadow: 0 4px 14px rgba(82,168,140,0.35); transition: all 0.2s;
+}
+.btn-fab:active { transform: scale(0.92); }
+
+/* ============================================================
+   List rows
+   ============================================================ */
+.list-row {
+  background: var(--card-bg); border-radius: var(--radius-lg); padding: 14px;
+  display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-soft);
+  margin-bottom: 8px; transition: transform 0.15s, box-shadow 0.15s;
+}
+.list-row:active { transform: scale(0.99); box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
+
+.list-row-icon {
+  width: 40px; height: 40px; border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--text-body);
+  background: var(--page-bg);
+}
+.list-row-icon.primary { background: var(--primary-light); color: var(--primary); }
+.list-row-icon.expense { background: var(--expense-light); color: var(--expense); }
+.list-row-icon.income { background: var(--income-light); color: var(--income); }
+.list-row-content { flex: 1; min-width: 0; }
+.list-row-title { font-size: 14px; font-weight: 500; color: var(--text-h1); }
+.list-row-meta { font-size: 12px; color: var(--text-weak); margin-top: 2px; }
+.list-row-amount { font-size: 14px; font-weight: 600; flex-shrink: 0; }
+.list-row-amount.expense { color: var(--expense); }
+.list-row-amount.income { color: var(--income); }
+
+/* ============================================================
+   Badges
+   ============================================================ */
+.badge {
+  display: inline-flex; align-items: center; padding: 2px 8px; border-radius: var(--radius-sm);
+  font-size: 11px; font-weight: 500; line-height: 1.4;
+}
+.badge.primary { background: var(--primary-light); color: var(--primary-dark); }
+.badge.expense { background: var(--expense-light); color: var(--expense-dark); }
+.badge.income { background: var(--income-light); color: var(--income-dark); }
+.badge.vip { background: var(--vip-light); color: var(--vip-gold); }
+.badge.neutral { background: var(--page-bg); color: var(--text-weak); }
+
+/* ============================================================
+   Header / hero section (deprecated 规范
+   ============================================================ */
+.page-green { background: var(--primary); color: #FFFFFF; }
+
+.header-bar { background: var(--primary); color: #FFFFFF; padding: 60px 20px 80px; position: relative; }
+
+.card-lift {
+  background: var(--card-bg); border-radius: 24px 24px 0 0; margin-top: -60px;
+  padding: 16px 20px 100px; min-height: calc(100vh - 100px); position: relative; z-index: 2;
+}
+
+/* ============================================================
+   Modal
+   ============================================================ */
+.modal-mask {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px;
+  animation: fade-in 0.2s;
+}
+
+.modal-card {
+  background: var(--card-bg); border-radius: var(--radius-xl);
+  width: 100%; max-width: 360px; max-height: 80vh; overflow: hidden;
+  display: flex; flex-direction: column; box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+  animation: slide-up 0.25s ease-out;
+}
+
+.modal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 20px; border-bottom: 1px solid var(--divider); }
+.modal-header h3 { font: var(--font-h2); color: var(--text-h1); }
+.modal-header h2 { font: var(--font-h2); color: var(--text-h1); }
+
+.modal-close {
+  font-size: 24px; color: var(--text-weak); cursor: pointer; line-height: 1;
+  background: none; border: none; padding: 0;
+}
+
+.modal-body { padding: 16px 20px; overflow-y: auto; }
+.modal-footer {
+  display: flex; gap: 8px; padding: 12px 20px 20px; border-top: 1px solid var(--divider); }
+
+/* ============================================================
+   Empty state
+   ============================================================ */
+.empty-state {
+  text-align: center; padding: 48px 20px 24px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.empty-state-illust {
+  display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+}
+.empty-state-title { font: var(--font-h2); color: var(--text-h1); margin-bottom: 6px; }
+.empty-state-desc { font-size: 13px; color: var(--text-weak); line-height: 1.6; margin-bottom: 20px; max-width: 280px; }
+.empty-state-cta { margin-top: 8px; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ============================================================
+   Progress bar
+   ============================================================ */
+.progress-track {
+  height: 8px; background: var(--page-bg); border-radius: 4px; overflow: hidden;
+}
+.progress-bar {
+  height: 100%; background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+  border-radius: 4px; transition: width 0.4s ease;
+}
+.progress-bar.over { background: linear-gradient(90deg, var(--expense) 0%, var(--expense-light) 100%); }
+
+/* ============================================================
+   Balance cards
+   ============================================================ */
+.balance-card {
+  border-radius: var(--radius-lg); padding: 16px; color: #FFFFFF; transition: transform 0.2s;
+}
+.balance-card:active { transform: scale(0.96); }
+.balance-card.expense { background: var(--expense); }
+.balance-card.income { background: var(--income); }
+.balance-card .label { font-size: 12px; opacity: 0.9; margin-bottom: 6px; }
+.balance-card .value { font-size: 22px; font-weight: 700; }
+
+.balance-card.soft-expense { background: var(--expense-light); color: var(--expense-dark); }
+.balance-card.soft-income { background: var(--income-light); color: var(--income-dark); }
+.balance-card.soft-expense .label, .balance-card.soft-income .label { color: var(--text-body); opacity: 1; }
+
+/* ============================================================
+   Inputs
+   ============================================================ */
+.input {
+  border: none; background: var(--page-bg); font: var(--font-body); outline: none;
+  width: 100%; color: var(--text-h1); border-radius: var(--radius-md); padding: 10px 14px;
+  transition: background 0.15s, box-shadow 0.15s;
+  font-family: inherit;
+}
+.input:focus { background: var(--primary-light); box-shadow: 0 0 0 1px var(--primary); }
+.input::placeholder { color: var(--text-weak); }
+
+.input-bordered {
+  background: var(--card-bg); border: 1px solid var(--divider); border-radius: var(--radius-md);
+  padding: 10px 14px; font: var(--font-body); outline: none; width: 100%; color: var(--text-h1);
+  transition: border-color 0.15s;
+}
+.input-bordered:focus { border-color: var(--primary); }
+
+/* ============================================================
+   Tab / segmented control
+   ============================================================ */
+.tab-bar { display: flex; background: var(--card-bg); border-bottom: 1px solid var(--divider); }
+.tab-item {
+  flex: 1; padding: 12px 0; text-align: center; font-size: 14px; color: var(--text-body);
+  position: relative; transition: color 0.15s; cursor: pointer; background: none; border: none;
+}
+.tab-item.active { color: var(--primary); font-weight: 500; }
+.tab-item.active::after {
+  content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 24px; height: 2px; background: var(--primary); border-radius: 1px;
+}
+
+.seg-control { display: flex; background: var(--page-bg); border-radius: var(--radius-lg); padding: 3px; }
+.seg-item {
+  flex: 1; text-align: center; padding: 8px 0; font-size: 13px; color: var(--text-body);
+  border-radius: var(--radius-md); cursor: pointer; transition: all 0.15s; background: none; border: none;
+}
+.seg-item.active { background: var(--card-bg); color: var(--text-h1); font-weight: 500; box-shadow: var(--shadow-soft); }
+
+/* ============================================================
+   Page header
+   ============================================================ */
+.page-header {
+  padding: 50px 20px 12px; display: flex; align-items: flex-start; gap: 12px; background: transparent;
+}
+.page-header .back-btn {
+  display: flex; align-items: center; justify-content: center; width: 32px; height: 32px;
+  cursor: pointer; color: var(--text-h1); background: none; border: none; padding: 0;
+  border-radius: 50%; transition: background 0.15s;
+}
+.page-header .back-btn:active { background: var(--primary-light); }
+.page-header .title-wrap { flex: 1; min-width: 0; }
+.page-header .page-title { font: var(--font-h1); color: var(--text-h1); }
+.page-header .page-subtitle { font: var(--font-caption); color: var(--text-weak); margin-top: 4px; }
+
+/* ============================================================
+   Utilities
+   ============================================================ */
+.divider { height: 1px; background: var(--divider); margin: 12px 0; }
+::-webkit-scrollbar { width: 0; height: 0; }
+
+/* ---- Flex / layout utilities（严格按 CSS variables 实现 */
+.flex { display: flex; }
+.flex-1 { flex: 1; min-width: 0; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+.grid { display: grid; }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+
+/* ---- Spacing utilities */
+.mt-1 { margin-top: 4px; }
+.mt-2 { margin-top: 8px; }
+.mb-1 { margin-bottom: 4px; }
+.mb-3 { margin-bottom: 12px; }
+.mt-2 { margin-top: 8px; }
+
+/* ---- Typography utilities */
+.text-lg { font-size: 18px; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+/* ---- Color utilities（基于 tokens 取值 */
+.text-expense-dark { color: var(--expense-dark); }
+.text-income-dark { color: var(--income-dark); }
+.cursor-pointer { cursor: pointer; }
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.-rotate-90 { transform: rotate(-90deg); }
+
+/* ============================================================
+   Animation
+   ============================================================ */
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+.animate-fade-in { animation: fade-in 0.2s ease-out forwards; }
+
+@keyframes slide-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ============================================================
+   IllustrationImage common classes (global, NOT scoped)
+   —— 因为 IllustrationImage 是子组件，父组件的 <style scoped>
+   无法命中其内部 <img>。以下类放在全局作用域，跨页面通用。
+   位置相关属性（top/right 等）由父组件通过 :style-obj 传入。
+   ============================================================ */
+img.empty-state-img {
+  width: 240px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+  animation: pet-float 3s ease-in-out infinite;
+}
+img.page-header-sticker {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+img.card-sticker {
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  opacity: 0.85;
+}
+img.modal-sticker {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+}
+img.tag-card-sticker,
+img.period-item-sticker,
+img.cat-sticker,
+img.reminder-sticker,
+img.backup-row-sticker,
+img.source-row-sticker,
+img.coupon-sticker,
+img.bill-sticker,
+img.record-sticker,
+img.result-sticker {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  opacity: 0.75;
+}
+.animate-slide-up { animation: slide-up 0.25s ease-out forwards; }
+
+.page-enter-active, .page-leave-active { transition: opacity 0.2s ease, transform 0.2s ease; }
+.page-enter-from { opacity: 0; transform: translateX(20px); }
+.page-leave-to { opacity: 0; transform: translateX(-20px); }
+
+/* ============================================================
+   通用分隔样式（用于设置中心的条目分组标签 */
+.vip-tag {
+  display: inline-flex; align-items: center; font-size: 10px; font-weight: 600;
+  letter-spacing: 0.5px; padding: 1px 6px; border-radius: var(--radius-sm);
+  color: var(--vip-gold); border: 1px solid var(--vip-gold); background: transparent;
+}
+
+/* ============================================================
+   萌宠插画装饰（Pet Mascot — 严格基于 CSS 变量
+   · 用于页面空状态、角落装饰
+   · 颜色完全跟随主题，通过 --primary / --primary-light / --primary-dark 上色
+   ============================================================ */
+
+/* 空状态萌宠插画容器 */
+.pet-mascot {
+  display: block;
+  text-align: center;
+  margin: 0 auto 16px;
+}
+
+/* 主图尺寸（大号用于空状态） */
+.pet-mascot .pet-svg {
+  width: 160px;
+  height: 160px;
+  display: block;
+  margin: 0 auto;
+  animation: pet-float 2.8s ease-in-out infinite;
+}
+
+/* 迷你头像（设置页装饰） */
+.pet-mascot-mini .pet-svg {
+  width: 28px;
+  height: 28px;
+  animation: none;
+}
+
+/* 弹窗底部角落装饰 */
+.pet-mascot-corner {
+  position: absolute;
+  right: 8px;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.pet-mascot-corner .pet-svg {
+  width: 56px;
+  height: 56px;
+  animation: pet-breathe 3.2s ease-in-out infinite;
+  opacity: 0.9;
+}
+
+/* —— 轻量浮动动画 —— */
+@keyframes pet-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-5px); }
+}
+
+@keyframes pet-breathe {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-2px) scale(1.03); }
+}
+
+/* —— 主题切换时颜色平滑过渡 —— */
+.pet-svg,
+.pet-mascot,
+.pet-mascot-mini,
+.pet-mascot-corner {
+  transition: color 0.2s ease, fill 0.2s ease, stroke 0.2s ease;
+}
+
+/* 萌宠 SVG 内部颜色通过 currentColor + CSS 变量适配主题 */
+.pet-svg .pet-fill-light   { fill: var(--primary-light); }
+.pet-svg .pet-fill-main    { fill: var(--primary); }
+.pet-svg .pet-fill-dark    { fill: var(--primary-dark); }
+.pet-svg .pet-stroke-main  { stroke: var(--primary); }
+.pet-svg .pet-stroke-light { stroke: var(--primary-light); }
+.pet-svg .pet-stroke-dark  { stroke: var(--primary-dark); }
+
+/* —— 主题颜色切换时整体容器过渡 —— */
+#app { transition: background 0.2s ease, color 0.2s ease; }

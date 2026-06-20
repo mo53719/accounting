@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- 用内联 SVG data URI 替代 /vite.svg，避免 404 -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='28' fill='%23E8725C'/><text x='32' y='44' text-anchor='middle' font-size='40' fill='white' font-family='sans-serif' font-weight='bold'>¥</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#E8725C" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <!-- 移除外网 Google Fonts：避免无网/DNS 解析失败时阻塞 paint；改用本地系统字体回退 -->
+    <title>小余简单记</title>
+  </head>
+  <body>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <filter id="comic-wobble">
+          <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="3"/>
+          <feDisplacementMap in="SourceGraphic" scale="1.4"/>
+        </filter>
+        <filter id="pet-soft">
+          <feGaussianBlur stdDeviation="0.3"/>
+        </filter>
+      </defs>
+    </svg>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
